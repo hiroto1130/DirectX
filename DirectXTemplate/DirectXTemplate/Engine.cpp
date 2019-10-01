@@ -31,6 +31,22 @@ void EndEngine(DirectX directX)
 		directX.pkey->Release();
 		directX.pkey = nullptr;
 	}
+	if (directX.pMesh != nullptr)
+	{
+		directX.pMesh->Release();
+		directX.pMesh = nullptr;
+	}
+	if (directX.pDevice != nullptr)
+	{
+		directX.pDevice->Release();
+		directX.pDevice = nullptr;
+	}
+	if (directX.pDirect3d != nullptr)
+	{
+		directX.pDirect3d->Release();
+		directX.pDirect3d = nullptr;
+	}
+
 }
 
 bool DrawStart(DirectX* directX)

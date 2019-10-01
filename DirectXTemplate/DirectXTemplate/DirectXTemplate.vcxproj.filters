@@ -36,6 +36,9 @@
     <ClCompile Include="Singleton.cpp">
       <Filter>singleton</Filter>
     </ClCompile>
+    <ClCompile Include="DirectX.cpp">
+      <Filter>DirectX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
