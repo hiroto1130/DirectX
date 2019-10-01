@@ -27,17 +27,6 @@ private:
 	float m_chip_y;            // 統合画像から切り取る座標(Y座標)
 // ------------------------------------------------------------------------------------------
 
-// テクスチャ保存用構造体
-// ------------------------------------------------------------------------------------------
-struct TEXTUREDATA
-{
-
-	LPDIRECT3DTEXTURE9 m_pTexture;  // テクスチャ情報
-	float m_width;					            // テクスチャの幅
-	float m_height;					            // テクスチャの高さ
-
-};
-// ------------------------------------------------------------------------------------------
 
 // テクスチャ情報保存用構造体
 // ------------------------------------------------------------------------------------------
@@ -57,6 +46,8 @@ typedef struct
 } CUSTOMVERTEX, * P_CUSTOMVERTEX;
 // -----------------------------------------------------------------------------------------
 
+static const int MaxTexture = 20;
+
 public:
 
 void DrawTexture(float x, float y, float width, float height, float tu, float tv, float tu_width, float tv_height, LPDIRECT3DTEXTURE9* Texture, DirectX directX);
@@ -66,6 +57,19 @@ void LoadTexture(const char* file_name, LPDIRECT3DTEXTURE9* Texture, int texture
 void DrawMapChip(DirectX* directX, LPDIRECT3DTEXTURE9* Texture, int MapChipList[MAP_SIZE_HEIGHT][MAP_SIZE_WIDTH]);
 
 void DrawMap(DirectX* directX, LPDIRECT3DTEXTURE9* Texture);
+
+// テクスチャ保存用構造体
+// ------------------------------------------------------------------------------------------
+struct TEXTUREDATA
+{
+
+	LPDIRECT3DTEXTURE9 m_pTexture[MaxTexture];  // テクスチャ情報
+	float m_width;					            // テクスチャの幅
+	float m_height;					            // テクスチャの高さ
+
+};
+// ------------------------------------------------------------------------------------------
+
 };
 
 

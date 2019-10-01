@@ -61,6 +61,7 @@ HRESULT Device::InitD3d(HWND* hInst, DirectX* directX)
 		MessageBox(NULL, "Xファイルの読み込みに失敗しました", NULL, MB_OK);
 		return E_FAIL;
 	}
+
 	D3DXMATERIAL* d3dxMaterials = (D3DXMATERIAL*)pD3DXMtrlBuffer->GetBufferPointer();
 	directX->pMeshMaterials = new D3DMATERIAL9[dwNumMaterials];
 	directX->pMeshTextures = new LPDIRECT3DTEXTURE9[dwNumMaterials];

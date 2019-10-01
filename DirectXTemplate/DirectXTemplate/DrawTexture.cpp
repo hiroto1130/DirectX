@@ -12,7 +12,7 @@ void Texture::DrawTexture(float x, float y, float width, float height, float tu,
 		{ x         , y + height , 0 , 1 , tu       , tv_height },
 	};
 
-	directX.pDevice->SetFVF(D3DFVF_XYZRHW | D3DFVF_TEX1);
+	directX.pDevice->SetFVF(D3DFVF_CUSTOMVERTEX);
 	directX.pDevice->SetTexture(0, *Texture);
 	directX.pDevice->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, 2, customvertex, sizeof(CUSTOMVERTEX));
 
