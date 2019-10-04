@@ -61,7 +61,6 @@ HRESULT Device::InitD3d(HWND* hInst, DirectX* directX)
 		MessageBox(NULL, "Xファイルの読み込みに失敗しました", NULL, MB_OK);
 		return E_FAIL;
 	}
-
 	D3DXMATERIAL* d3dxMaterials = (D3DXMATERIAL*)pD3DXMtrlBuffer->GetBufferPointer();
 	directX->pMeshMaterials = new D3DMATERIAL9[dwNumMaterials];
 	directX->pMeshTextures = new LPDIRECT3DTEXTURE9[dwNumMaterials];
@@ -82,7 +81,6 @@ HRESULT Device::InitD3d(HWND* hInst, DirectX* directX)
 			}
 		}
 	}
-
 	pD3DXMtrlBuffer->Release();
 	// Zバッファー処理を有効にする
 	directX->pDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
@@ -92,7 +90,6 @@ HRESULT Device::InitD3d(HWND* hInst, DirectX* directX)
 	directX->pDevice->SetRenderState(D3DRS_AMBIENT, 0x00111111);
 	// スペキュラ（鏡面反射）を有効にする
 	directX->pDevice->SetRenderState(D3DRS_SPECULARENABLE, TRUE);
-
 	return S_OK;
 
 }
@@ -161,14 +158,14 @@ bool Device::GetKeyStatus(int KeyNumber)
 
 //VOID Render()
 //Xファイルから読み込んだメッシュをレンダリングする関数
-void Device::Render(DirectX* directX)
+void Device::Render(DirectX directX)
 {
-	//ワールドトランスフォーム（絶対座標変換）
+//ワールドトランスフォーム（絶対座標変換）
 	D3DXMATRIXA16 matWorld, matRotation;
 	D3DXMatrixRotationY(&matWorld, timeGetTime() / 3000.0f);
 	D3DXMatrixRotationX(&matRotation, 0.5f);
 	D3DXMatrixMultiply(&matWorld, &matWorld, &matRotation);
-	directX->pDevice->SetTransform(D3DTS_WORLD, &matWorld);
+	directX.pDevice->SetTransform(D3DTS_WORLD, &matWorld);
 	// ビュートランスフォーム（視点座標変換）
 
 	D3DXVECTOR3 vecEyePt(0.0f, 1.0f, -3.0f); //カメラ（視点）位置
@@ -176,11 +173,11 @@ void Device::Render(DirectX* directX)
 	D3DXVECTOR3 vecUpVec(0.0f, 1.0f, 0.0f);//上方位置
 	D3DXMATRIXA16 matView;
 	D3DXMatrixLookAtLH(&matView, &vecEyePt, &vecLookatPt, &vecUpVec);
-	directX->pDevice->SetTransform(D3DTS_VIEW, &matView);
+	directX.pDevice->SetTransform(D3DTS_VIEW, &matView);
 	// プロジェクショントランスフォーム（射影変換）
 	D3DXMATRIXA16 matProj;
 	D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 4, 1.0f, 1.0f, 100.0f);
-	directX->pDevice->SetTransform(D3DTS_PROJECTION, &matProj);
+	directX.pDevice->SetTransform(D3DTS_PROJECTION, &matProj);
 	// ライトをあてる 白色で鏡面反射ありに設定
 	D3DXVECTOR3 vecDirection(0, 0, 1);
 	D3DLIGHT9 light;
@@ -194,21 +191,21 @@ void Device::Render(DirectX* directX)
 	light.Specular.b = 1.0f;
 	D3DXVec3Normalize((D3DXVECTOR3*)& light.Direction, &vecDirection);
 	light.Range = 200.0f;
-	directX->pDevice->SetLight(0, &light);
-	directX->pDevice->LightEnable(0, TRUE);
+	directX.pDevice->SetLight(0, &light);
+	directX.pDevice->LightEnable(0, TRUE);
 	// レンダリング
-	directX->pDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
+	directX.pDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
 		D3DCOLOR_XRGB(100, 100, 100), 1.0f, 0);
 
-	if (SUCCEEDED(directX->pDevice->BeginScene()))
+	if (SUCCEEDED(directX.pDevice->BeginScene()))
 	{
 		for (DWORD i = 0; i < dwNumMaterials; i++)
 		{
-			directX->pDevice->SetMaterial(&directX->pMeshMaterials[i]);
-			directX->pDevice->SetTexture(0, directX->pMeshTextures[i]);
-			directX->pMesh->DrawSubset(i);
+			directX.pDevice->SetMaterial(&directX.pMeshMaterials[i]);
+			directX.pDevice->SetTexture(0, directX.pMeshTextures[i]);
+			directX.pMesh->DrawSubset(i);
 		}
-		directX->pDevice->EndScene();
+		directX.pDevice->EndScene();
 	}
-	directX->pDevice->Present(NULL, NULL, NULL, NULL);
+	directX.pDevice->Present(NULL, NULL, NULL, NULL);
 }
