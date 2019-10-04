@@ -52,7 +52,7 @@ public:
 
 void DrawTexture(float x, float y, float width, float height, float tu, float tv, float tu_width, float tv_height, LPDIRECT3DTEXTURE9* Texture, DirectX directX);
 
-void LoadTexture(const char* file_name, LPDIRECT3DTEXTURE9* Texture, int texture_number, DirectX* directX);
+void LoadTexture(const char* file_name, LPDIRECT3DTEXTURE9* Texture,DirectX* directX);
 
 void DrawMapChip(DirectX* directX, LPDIRECT3DTEXTURE9* Texture, int MapChipList[MAP_SIZE_HEIGHT][MAP_SIZE_WIDTH]);
 

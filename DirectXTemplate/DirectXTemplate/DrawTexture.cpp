@@ -3,6 +3,9 @@
 
 const int D3DFVF_CUSTOMVERTEX(D3DFVF_XYZRHW | D3DFVF_TEX1);
 
+
+// 描画開始前に必ず Engine.cpp にある前処理の DrawStart 関数を呼び開始処理を追加する
+// 描画終了時には必ず Engine.cpp にある後処理の DrawEnd 関数を呼び終了処理を追加する
 void Texture::DrawTexture(float x, float y, float width, float height, float tu, float tv, float tu_width, float tv_height, LPDIRECT3DTEXTURE9* Texture, DirectX directX)
 {
 	CUSTOMVERTEX customvertex[4] = {
@@ -18,7 +21,7 @@ void Texture::DrawTexture(float x, float y, float width, float height, float tu,
 
 };
 
-void Texture::LoadTexture(const char* file_name, LPDIRECT3DTEXTURE9* Texture, int texture_number, DirectX* directX)
+void Texture::LoadTexture(const char* file_name, LPDIRECT3DTEXTURE9* Texture, DirectX* directX)
 {
 	HRESULT result = D3DXCreateTextureFromFile(directX->pDevice, file_name, Texture);
 
