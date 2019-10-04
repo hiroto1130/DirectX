@@ -65,6 +65,12 @@ bool DrawStart(DirectX* directX)
 	return false;
 }
 
+void DrawEnd(DirectX directX)
+{
+	directX.pDevice->EndScene();
+	directX.pDevice->Present(NULL, NULL, NULL, NULL);
+}
+
 void UpdateInput(DirectX* directX,Device device)
 {
 	device.UpdateKeyStatus(directX);

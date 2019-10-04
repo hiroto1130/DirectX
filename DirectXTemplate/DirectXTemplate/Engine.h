@@ -15,6 +15,8 @@ void EndEngine(DirectX directX);
 
 bool DrawStart(DirectX* directX);
 
+void DrawEnd(DirectX directX);
+
 void UpdateInput(DirectX* directX, Device device);
 
 #endif // !1
