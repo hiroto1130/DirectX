@@ -6,29 +6,63 @@
 #include"Engine.h"
 
 
+
+DWORD WINAPI Thread(LPVOID* data)
+{
+	//1000ミリ秒（1秒）おきにループ
+	Sleep(1000);
+	MessageBox(0, "Sleep処理が終了しました", NULL, MB_OK);
+
+	ExitThread(0);
+}
+
 ////// ウィンドウプロシージャー //////
 
 LRESULT CALLBACK WindowProcedure(HWND hInst, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch (iMsg)
+	static HANDLE th;
+	DWORD result;
+
+	switch (iMsg) 
 	{
-	case WM_CLOSE:
+	case WM_DESTROY:
 		PostQuitMessage(0);
-		break;
-	case WM_KEYDOWN:
-		switch ((CHAR)wParam)
-		{
-		case VK_ESCAPE:
-			PostQuitMessage(0);
+		return 0;
+	
+	case WM_CREATE:
+		//スレッドを作成
+		th = CreateThread(
+			0,                                // 0 でデフォルトの値 
+			0,                                // 0 でデフォルトの値
+			(LPTHREAD_START_ROUTINE)Thread,   // スレッド実行時の関数 
+			(LPVOID)"カウント数表示：",       // スレッド実行時の関数の引数
+			0,                                // 実行タイミング      m,
+			NULL                              // スレッド識別子を保存するためのDWORD型のポインタの指定
+		);
+
+		return 0;
+
+	case WM_CLOSE:
+
+		// スレッドが終わったかチェックする関数
+		// 終了していたら終了コードが第二引数に入る
+		GetExitCodeThread(
+			th,       // スレッドハンドル
+			&result   // 終了ステータス(終了すれば STILL_ACTIVE 以外の値が入る)
+		);
+
+		//終わったらハンドルを閉じる。
+		if (STILL_ACTIVE != result) {
+			//closehandleで閉じる。
+			CloseHandle(th);
+			//ループを抜ける。
 			break;
 		}
-		break;
+		return 0;
 	}
 
 	return DefWindowProc(hInst, iMsg, wParam, lParam);
 }
-
-
 
 /**
 
