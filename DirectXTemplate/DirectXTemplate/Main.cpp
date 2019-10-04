@@ -9,25 +9,30 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance,LPSTR lpCmpLine, INT
 {
 	
 	HWND* hWnd;
-	Window& window = singleton<Window>::get_instance();
-    DirectX& directX = singleton<DirectX>::get_instance();
-	Device& device = singleton<Device>::get_instance();
-	Texture& texture = singleton<Texture>::get_instance();
+	Window window = singleton<Window>::get_instance();
+    DirectX directX = singleton<DirectX>::get_instance();
+	Device device = singleton<Device>::get_instance();
+	Texture texture = singleton<Texture>::get_instance();
 	
 	Texture::TEXTUREDATA textureData;
 
-	if ((hWnd = InitEngine(1280, 960, hInst, &directX,window,device)) == NULL)
+	if ((hWnd = InitEngine(800, 600, hInst, &directX,window,device)) == NULL)
 	{
 		return 0;
 	}
 
-	timeBeginPeriod(1);
-	//今の時間をtimeに保存。
+
+	timeBeginPeriod(1);//今の時間をtimeに保存。
 	DWORD time = timeGetTime();
 	DWORD prevtime = 0;
 
-	texture.LoadTexture("Title8.png", &textureData.m_pTexture[1], 0, &directX);
+	// ------------------------------------------------------------------------------ //
+	// ------------------------ テクスチャ読み込み ---------------------------------- //
 
+	texture.LoadTexture("title8.png", &textureData.m_pTexture[0], &directX);
+
+	// ------------------------------------------------------------------------------ //
+	
 	MSG msg;
 	ZeroMemory(&msg, sizeof(msg));
 	while (msg.message != WM_QUIT)
@@ -45,13 +50,22 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance,LPSTR lpCmpLine, INT
 			}
 		}
 		else
-		{
-			texture.DrawTexture(300, 250, 250, 250, 0, 0, 1, 1, &textureData.m_pTexture[1], directX);
-			// device.Render(&directX);
-			time = timeGetTime();
+		{	
+			
 
+			if (time - prevtime < 1000 / 60) {
+
+				DrawStart(&directX);
+
+				texture.DrawTexture(150, 50, 500, 500, 0, 0, 1, 1, &textureData.m_pTexture[0], directX);
+
+				DrawEnd(directX);
+				time = timeGetTime();
+			}
+				
+			prevtime = time;
 		}
-		prevtime = time;
+		
 	}
 
 	timeEndPeriod(1);
@@ -64,6 +78,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance,LPSTR lpCmpLine, INT
 
 	return 0;
 }
+
+
+
 
 /*
 #include <windows.h>
