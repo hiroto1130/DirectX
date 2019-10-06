@@ -11,11 +11,6 @@ public:
 HWND MakeWindow(HWND* ,HINSTANCE, int, int);
 HWND MakeFullWindow(HINSTANCE, int, int);
 
-static Window& GetInstance()
-{
-	Window window;
-	return window;
-};
 
 };
 

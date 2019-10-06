@@ -11,7 +11,7 @@ DWORD WINAPI Thread(LPVOID* data)
 {
 	//1000ミリ秒（1秒）おきにループ
 	Sleep(1000);
-	MessageBox(0, "Sleep処理が終了しました", NULL, MB_OK);
+	//MessageBox(0, "Sleep処理が終了しました", NULL, MB_OK);
 
 	ExitThread(0);
 }
