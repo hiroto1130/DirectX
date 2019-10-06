@@ -4,6 +4,9 @@
 #include"Singleton.h"
 #include"Device.h"
 #include"DrawTexture.h"
+#include"ImageProcess.h"
+#include"Main.h"
+
 
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance,LPSTR lpCmpLine, INT nCmdShow)
 {
@@ -13,14 +16,30 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance,LPSTR lpCmpLine, INT
     DirectX directX = singleton<DirectX>::get_instance();
 	Device device = singleton<Device>::get_instance();
 	Texture texture = singleton<Texture>::get_instance();
-	
+	ImageProcess imageProcess = singleton<ImageProcess>::get_instance();
+	Number number = singleton<Number>::get_instance();
+
 	Texture::TEXTUREDATA textureData;
+	Texture::TEXTUREDATAEX textureDataEx[4] =
+	{
+	{ 150 , 50  , 0 , 0 , 0 },
+	{ 200 , 50  , 0 , 1 , 0 },
+	{ 200 , 100 , 0 , 1 , 1 },
+	{ 150 , 100 , 0 , 0 , 1 },
+	};
+
+	Texture::TEXTUREDATAEX DrawDataEx[4] = 
+	{
+    { 150 , 50  , 0 , 0 , 0 },
+    { 200 , 50  , 0 , 1 , 0 },
+    { 200 , 100 , 0 , 1 , 1 },
+    { 150 , 100 , 0 , 0 , 1 },
+	};
 
 	if ((hWnd = InitEngine(800, 600, hInst, &directX,window,device)) == NULL)
 	{
 		return 0;
 	}
-
 
 	timeBeginPeriod(1);//今の時間をtimeに保存。
 	DWORD time = timeGetTime();
@@ -55,14 +74,43 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance,LPSTR lpCmpLine, INT
 
 			if (time - prevtime < 1000 / 60) {
 
+				device.UpdateKeyStatus(&directX);
 				DrawStart(&directX);
 
-				texture.DrawTexture(150, 50, 500, 500, 0, 0, 1, 1, &textureData.m_pTexture[0], directX);
+				//texture.DrawTexture(number.TextureX, number.TextureY, number.TextureWith, number.TextureHight, number.TextureTu, number.TextureTv, number.TextureTuSize, number.TextureTvSize, &textureData.m_pTexture[0], directX);
+				texture.DrawTextureEx(&textureData.m_pTexture[0], textureDataEx, directX);
 
 				DrawEnd(directX);
+
+				if (device.GetKeyStatus(DIK_A)&& number.Flag[1] == false)
+				{
+					number.Flag[1] = true;
+					imageProcess.ParallelDisplacement(number.TextureX,number.TextureY,100,200,&number);
+
+				}
+				if (device.GetKeyStatus(DIK_S) && number.Flag[2] == false)
+				{
+					number.Flag[2] = true;
+					imageProcess.ScaleTrans(0.5, &number.TextureX, &number.TextureY, &number.TextureWith, &number.TextureHight);
+				}
+				if (device.GetKeyStatus(DIK_B) && number.Flag[0] == false)
+				{
+					number.Flag[0] = true;
+					imageProcess.ScaleTrans(2, &number.TextureX, &number.TextureY, &number.TextureWith, &number.TextureHight);
+				}
+				if (device.GetKeyStatus(DIK_R) && number.Flag[4] == false)
+				{
+					number.Flag[4] = true;
+					imageProcess.Rotation(90,textureDataEx,DrawDataEx);
+				}
+
+
 				time = timeGetTime();
 			}
 				
+
+
+
 			prevtime = time;
 		}
 		
