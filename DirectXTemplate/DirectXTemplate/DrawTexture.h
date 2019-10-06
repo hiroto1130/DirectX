@@ -13,6 +13,8 @@
 class Texture
 {
 private:
+
+
 // マップチップ
 // ----------------------------------------------------------------------------------------
 	int   m_map_height_number; // マップチップの横の個数
@@ -48,7 +50,7 @@ typedef struct
 
 static const int MaxTexture = 20;
 
-public:
+public: 
 
 void DrawTexture(float x, float y, float width, float height, float tu, float tv, float tu_width, float tv_height, LPDIRECT3DTEXTURE9* Texture, DirectX directX);
 
@@ -57,6 +59,7 @@ void LoadTexture(const char* file_name, LPDIRECT3DTEXTURE9* Texture,DirectX* dir
 void DrawMapChip(DirectX* directX, LPDIRECT3DTEXTURE9* Texture, int MapChipList[MAP_SIZE_HEIGHT][MAP_SIZE_WIDTH]);
 
 void DrawMap(DirectX* directX, LPDIRECT3DTEXTURE9* Texture);
+
 
 // テクスチャ保存用構造体
 // ------------------------------------------------------------------------------------------
@@ -70,6 +73,18 @@ struct TEXTUREDATA
 };
 // ------------------------------------------------------------------------------------------
 
+// 座標4つ指定用構造体
+// ------------------------------------------------------------------------------------------
+struct TEXTUREDATAEX
+{
+	float X, Y, Z;
+	float Tu, Tv;
+};
+
+// ------------------------------------------------------------------------------------------
+
+
+void DrawTextureEx(LPDIRECT3DTEXTURE9* Texture,TEXTUREDATAEX TextureDataEx[], DirectX directX);
 };
 
 

@@ -21,6 +21,21 @@ void Texture::DrawTexture(float x, float y, float width, float height, float tu,
 
 };
 
+void Texture::DrawTextureEx(LPDIRECT3DTEXTURE9* Texture, TEXTUREDATAEX TextureDataEx[],DirectX directX)
+{
+	CUSTOMVERTEX customvertex[4] = {
+		{ TextureDataEx[0].X , TextureDataEx[0].Y , 0 , 1 , TextureDataEx[0].Tu ,TextureDataEx[0].Tv },
+		{ TextureDataEx[1].X , TextureDataEx[1].Y , 0 , 1 , TextureDataEx[1].Tu ,TextureDataEx[1].Tv },
+		{ TextureDataEx[2].X , TextureDataEx[2].Y , 0 , 1 , TextureDataEx[2].Tu ,TextureDataEx[2].Tv },
+		{ TextureDataEx[3].X , TextureDataEx[3].Y , 0 , 1 , TextureDataEx[3].Tu ,TextureDataEx[3].Tv },
+	};
+
+	directX.pDevice->SetFVF(D3DFVF_CUSTOMVERTEX);
+	directX.pDevice->SetTexture(0, *Texture);
+	directX.pDevice->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, 2, customvertex, sizeof(CUSTOMVERTEX));
+
+};
+
 void Texture::LoadTexture(const char* file_name, LPDIRECT3DTEXTURE9* Texture, DirectX* directX)
 {
 	HRESULT result = D3DXCreateTextureFromFile(directX->pDevice, file_name, Texture);
@@ -62,8 +77,8 @@ void Texture::DrawMapChip(DirectX* directX, LPDIRECT3DTEXTURE9* Texture, int Map
 		{
 			int chip_id = MapChipList[i][j];
 
-			int width_num = m_texture_width / m_mapChip_widht;
-			int height_num = m_texture_height / m_mapChip_height;
+			int width_num =  (int)m_texture_width / m_mapChip_widht;
+			int height_num = (int)m_texture_height / m_mapChip_height;
 
 			float chip_pos_x = (float)((chip_id % width_num) * m_mapChip_widht);
 			float chip_pos_y = (float)((chip_id / height_num) * m_mapChip_height);
