@@ -15,8 +15,8 @@ struct INPUTSTATE
 
 // キーボード //
 static const int MAX_KEY_NUMBER = 256;
-// 入力キーを入れる値
-BYTE KeyState[MAX_KEY_NUMBER];
+
+
 // 256の配列を持つ
 const int MASK_NUM = 0x80;
 
@@ -24,6 +24,9 @@ const int MASK_NUM = 0x80;
 DWORD dwNumMaterials = 0;
 
 public:
+	
+	// 入力キーを入れる値
+BYTE KeyState[MAX_KEY_NUMBER];
 
 HRESULT BuildDxDevice(HWND* hInst, DirectX* directX);
 
