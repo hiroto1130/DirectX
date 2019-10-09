@@ -8,6 +8,10 @@
 #include"Main.h"
 
 
+
+int a;
+
+
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance,LPSTR lpCmpLine, INT nCmdShow)
 {
 	
@@ -19,21 +23,14 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance,LPSTR lpCmpLine, INT
 	ImageProcess imageProcess = singleton<ImageProcess>::get_instance();
 	Number number = singleton<Number>::get_instance();
 
-	Texture::TEXTUREDATA textureData;
-	Texture::TEXTUREDATAEX textureDataEx[4] =
-	{
-	{ 150 , 50  , 0 , 0 , 0 },
-	{ 200 , 50  , 0 , 1 , 0 },
-	{ 200 , 100 , 0 , 1 , 1 },
-	{ 150 , 100 , 0 , 0 , 1 },
-	};
-
+     Texture::TEXTUREDATA textureData;
+	
 	Texture::TEXTUREDATAEX DrawDataEx[4] = 
 	{
     { 150 , 50  , 0 , 0 , 0 },
-    { 200 , 50  , 0 , 1 , 0 },
-    { 200 , 100 , 0 , 1 , 1 },
-    { 150 , 100 , 0 , 0 , 1 },
+    { 600 , 50  , 0 , 1 , 0 },
+    { 600 , 550 , 0 , 1 , 1 },
+    { 150 , 550 , 0 , 0 , 1 },
 	};
 
 	if ((hWnd = InitEngine(800, 600, hInst, &directX,window,device)) == NULL)
@@ -78,7 +75,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance,LPSTR lpCmpLine, INT
 				DrawStart(&directX);
 
 				//texture.DrawTexture(number.TextureX, number.TextureY, number.TextureWith, number.TextureHight, number.TextureTu, number.TextureTv, number.TextureTuSize, number.TextureTvSize, &textureData.m_pTexture[0], directX);
-				texture.DrawTextureEx(&textureData.m_pTexture[0], textureDataEx, directX);
+				texture.DrawTextureEx(&textureData.m_pTexture[0],DrawDataEx, directX);
 
 				DrawEnd(directX);
 
@@ -100,10 +97,10 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance,LPSTR lpCmpLine, INT
 				}
 				if (device.GetKeyStatus(DIK_R) && number.Flag[4] == false)
 				{
-					number.Flag[4] = true;
-					imageProcess.Rotation(90,textureDataEx,DrawDataEx);
+					a += 10;
+					// number.Flag[4] = true;
+					imageProcess.Rotation(a,DrawDataEx);
 				}
-
 
 				time = timeGetTime();
 			}

@@ -21,12 +21,11 @@ public:
 	// デストラクタ
 	~ImageProcess();
 
-
 	// 平行移動
 	void ParallelDisplacement(int TextureX, int TextureY, int Tx, int Ty, Number* number);
 
 	// 回転
-	void Rotation(int Angle,Texture::TEXTUREDATAEX texturedataEx[], Texture::TEXTUREDATAEX DrawDataEx[]);
+	void Rotation(int Angle,Texture::TEXTUREDATAEX DrawDataEx[]);
 	
 	// 拡縮
 	void ScaleTrans(float Scale, int* TextureX, int* TextureY, int* TextureWidth, int* TextureHight);

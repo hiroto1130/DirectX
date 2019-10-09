@@ -21,21 +21,27 @@ void ImageProcess::ParallelDisplacement(int TextureX,int TextureY,int Tx,int Ty,
 }
 
 // 回転
-void ImageProcess::Rotation(int Angle, Texture::TEXTUREDATAEX TextureDataEx[], Texture::TEXTUREDATAEX DrawDatraEx[])
+void ImageProcess::Rotation(int Angle, Texture::TEXTUREDATAEX DrawDataEx[])
 {
-	CentralX = DrawDatraEx[0].X + ((DrawDatraEx[1].X - DrawDatraEx[0].X) / 2);
-	CentralY = DrawDatraEx[0].Y + ((DrawDatraEx[2].Y - DrawDatraEx[0].Y) / 2);
 	
+	CentralX = 250;
+	CentralY = 250;
+
+	Texture::TEXTUREDATAEX TextureDataEx[4] =
+	{
+	{ 0 - CentralX , 0 - CentralY , 0 , 0 , 0 },
+	{ 0 + CentralX , 0 - CentralY , 0 , 1 , 0 },
+	{ 0 + CentralX , 0 + CentralY , 0 , 1 , 1 },
+	{ 0 - CentralX , 0 + CentralY , 0 , 0 , 1 },
+	};
+
 	Cos = cos(Angle);
 	Sin = sin(Angle);
 
 	for (int a = 0; a < 4; a++)
 	{
-		TextureDataEx[a].X = TextureDataEx[a].X * Cos - TextureDataEx[a].Y * Sin;
-		TextureDataEx[a].Y = TextureDataEx[a].X * Sin + TextureDataEx[a].Y * Cos;
-
-		TextureDataEx[a].X = TextureDataEx[a].X + CentralX;
-		TextureDataEx[a].Y = TextureDataEx[a].Y + CentralY;
+		DrawDataEx[a].X = 400 + (TextureDataEx[a].X * Cos - TextureDataEx[a].Y * Sin);
+		DrawDataEx[a].Y = 300 + (TextureDataEx[a].X * Sin + TextureDataEx[a].Y * Cos);
 	}
 
 }
